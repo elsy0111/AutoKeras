@@ -37,18 +37,24 @@ test_labels = []
 train_images, test_images, train_labels, test_labels = train_test_split(images, labels, test_size = 0.1)
 
 
-# """
+"""
 # 訓練用データ、テストデータに取り込んだデータを格納する
 train_images = (np.array(train_images) + 80) / 80
 train_labels =  np.array(train_labels)
 test_images  = (np.array(test_images)  + 80) / 80
 test_labels  =  np.array(test_labels)
-# """
+"""
+
+train_images = (np.array(train_images) + 16384) / 32768
+train_labels =  np.array(train_labels)
+test_images  = (np.array(test_images)  + 16384) / 32768
+test_labels  =  np.array(test_labels)
+
 
 # clf = ak.ImageClassifier()
 
 # Initialize the image regressor.
-clf = ak.ImageRegressor(overwrite=True, max_trials=10)
+clf = ak.ImageRegressor(overwrite=True, max_trials=50)
 
 # Reshape the images to have the channel dimension.
 train_images = train_images.reshape(train_images.shape + (1,))
@@ -64,7 +70,7 @@ clf.fit(
     batch_size = 16,
     # Split the training data and use the last 15% as validation data.
     validation_split=0.15,
-    epochs=30,
+    epochs=50,
 )
 
 # 予測
