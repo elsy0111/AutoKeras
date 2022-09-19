@@ -3,7 +3,7 @@ import numpy as np
 from sklearn.model_selection import train_test_split
 from keras.utils import plot_model
 
-# """
+"""
 import os
 import tensorflow as tf
 
@@ -22,7 +22,7 @@ if gpus:
   except RuntimeError as e:
     # Virtual devices must be set before GPUs have been initialized
     print(e)
-# """
+"""
 
 images = np.load("../Use_CNN_Dataset/02/Dataset_1000_8in2/images.npy")
 
@@ -69,7 +69,6 @@ clf.fit(
     validation_split=0.15,
     epochs=30,
 )
-
 
 clf.final_fit(
     train_images,train_labels,
