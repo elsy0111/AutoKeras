@@ -1,8 +1,9 @@
 import autokeras as ak
 import numpy as np
 from sklearn.model_selection import train_test_split
+from keras.utils import plot_model
 
-"""
+# """
 import os
 import tensorflow as tf
 
@@ -21,11 +22,11 @@ if gpus:
   except RuntimeError as e:
     # Virtual devices must be set before GPUs have been initialized
     print(e)
-"""
+# """
 
-images = np.load("../../Use_CNN_Dataset/02/Dataset_1000_8in2/images.npy")
+images = np.load("../Use_CNN_Dataset/02/Dataset_1000_8in2/images.npy")
 
-labels = np.load("../../Use_CNN_Dataset/02/Dataset_1000_8in2/labels.npy")
+labels = np.load("../Use_CNN_Dataset/02/Dataset_1000_8in2/labels.npy")
 
 
 # データセットを分ける
@@ -47,6 +48,8 @@ test_labels  =  np.array(test_labels)
 
 # clf = ak.ImageClassifier()
 
+# clf は model のような扱いで大丈夫です。
+
 # Initialize the image regressor.
 clf = ak.ImageRegressor(overwrite=True, max_trials=10)
 
@@ -67,8 +70,18 @@ clf.fit(
     epochs=30,
 )
 
+
+clf.final_fit(
+    train_images,train_labels,
+    test_images,test_labels,
+    retrain=False)
+
 # 予測
 predictions = clf.predict(test_images)
 print(predictions)
 
 print(clf.evaluate(test_images, test_labels))
+
+model = clf.export_model()
+model.save('model.h5')
+plot_model(model, show_shapes=True, show_layer_names=True)
